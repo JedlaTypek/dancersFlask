@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Seznam tanečníků</title>
+</head>
+<body>
+    <h1>Seznam tanečníků</h1>
+    <table border="1">
+        <tr>
+            <th>Jméno</th>
+            <th>Počet bodů v latině</th>
+            <th>Počet bodů ve standartu</th>
+            <th>Akce</th>
+        </tr>
+        {% for zaznam in zaznamy %}
+        <tr>
+            <td>{{ zaznam.jmeno }}</td>
+            <td>{{ zaznam.lat }}</td>
+            <td>{{ zaznam.stt }}</td>
+            <td>
+                <form action="{{ url_for('routes.smazat', id=zaznam.id) }}" method="POST">
+                    <button type="submit">Smazat</button>
+                </form>
+                <a href="/edit/{{zaznam.id}}">
+                    <button type="submit">Upravit</button>
+                </form>
+                
+            </td>
+        </tr>
+        {% endfor %}
+        {% if zaznamy|length == 0 %}
+        <tr>
+            <td colspan="4">Žádní tanečníci</td>
+        </tr>
+        {% endif %}
+    </table>
+    <a href="/tanecnici">Přidat tanečníka</a>
+</body>
+</html>

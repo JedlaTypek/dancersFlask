@@ -18,6 +18,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Kopírování aplikace do kontejneru
 COPY . .
 
+# Inicializace databáze
+RUN alembic -c migrations/alembic.ini -x db=dev upgrade head
+
 # Nastavení prostředí pro Flask
 ENV FLASK_RUN_HOST=0.0.0.0
 ENV FLASK_RUN_PORT=5000

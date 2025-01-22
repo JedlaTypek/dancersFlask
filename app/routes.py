@@ -26,42 +26,43 @@ from wtforms.validators import DataRequired, Email, EqualTo, Length,InputRequire
 import re
 
 class TanecniciForm(FlaskForm):
-    def validate_name(form, field):
-        if not re.match("^[A-Za-z]*$", field.data):
-            raise ValidationError("Name must contain only letters without special characters")
+    def validate_name_add(form, field):
+            if not re.match("^[A-Za-zÁČĎÉĚÍŇÓŘŠŤÚŮÝŽáčďéěíňóřšťúůýž]*$", field.data):
+                raise ValidationError("Pole musí obsahovat pouze písmena bez speciálních znaků.")
 
-    def validate_lat(form, field):
+    def validate_lat_add(form, field):
         if not field.data.isdigit() or int(field.data) < 0:
-            raise ValidationError("Lat must be a positive integer")
+            raise ValidationError("Body v latině musí být celé kladné číslo.")
 
-    def validate_stt(form, field):
+    def validate_stt_add(form, field):
         if not field.data.isdigit() or int(field.data) < 0:
-            raise ValidationError("Stt must be a positive integer")
+            raise ValidationError("Body ve standartu musí být celé kladné číslo.")
 
-    name = StringField('Name', validators=[InputRequired(message="You can't leave this empty"), validate_name])
-    lat = StringField('Lat', validators=[InputRequired(message="You can't leave this empty"), validate_lat])
-    stt = StringField('Stt', validators=[InputRequired(message="You can't leave this empty"), validate_stt])
+    name = StringField('Jméno', validators=[InputRequired(message="Pole nesmí být prázdné."), validate_name_add])
+    lat = StringField('Body v latině', validators=[InputRequired(message="Pole nesmí být prázdné."), validate_lat_add])
+    stt = StringField('Body ve standartu', validators=[InputRequired(message="Pole nesmí být prázdné."), validate_stt_add])
+    submit = "Přidat tanečníka"
 
 class EditForm(FlaskForm):
-    def validate_name(form, field):
+    def validate_name_edit(form, field):
         if field.data:
-            if not re.match("^[A-Za-z]*$", field.data):
-                raise ValidationError("Name must contain only letters without special characters")
+            if not re.match("^[A-Za-zÁČĎÉĚÍŇÓŘŠŤÚŮÝŽáčďéěíňóřšťúůýž]*$", field.data):
+                raise ValidationError("Pole musí obsahovat pouze písmena bez speciálních znaků.")
 
-    def validate_lat(form, field):
-        if field.data:
-            if not field.data.isdigit() or int(field.data) < 0:
-                raise ValidationError("Lat must be a positive integer")
-
-    def validate_stt(form, field):
+    def validate_lat_edit(form, field):
         if field.data:
             if not field.data.isdigit() or int(field.data) < 0:
-                raise ValidationError("Stt must be a positive integer")
+                raise ValidationError("Body v latině musí být celé kladné číslo.")
 
-    name = StringField('Name', validators=[validate_name])
-    lat = StringField('Lat', validators=[validate_lat])
-    stt = StringField('Stt', validators=[validate_stt])
-    submit = SubmitField("Uložit změny")
+    def validate_stt_edit(form, field):
+        if field.data:
+            if not field.data.isdigit() or int(field.data) < 0:
+                raise ValidationError("Body ve standartu musí být celé kladné číslo.")
+
+    name = StringField('Jméno', validators=[validate_name_edit])
+    lat = StringField('Body v latině', validators=[validate_lat_edit])
+    stt = StringField('Body ve standartu', validators=[validate_stt_edit])
+    submit = "Uložit změny"
 
 
 
@@ -72,17 +73,17 @@ def smazat(id):
     if zaznam:
         db.delete(zaznam)
         db.commit()
-    return redirect(url_for("routes.vypis"))
+    return redirect("/")
 
 
-@bp.route("/tanecnici", methods=["GET", "POST"])
+@bp.route("/add", methods=["GET", "POST"])
 def tanecnici():
     form=TanecniciForm()
     if form.validate_on_submit():
         new_entry = Tanecnici(jmeno=form.name.data, lat=int(form.lat.data), stt=int(form.stt.data))
         db.add(new_entry)
         db.commit()
-        return redirect(url_for("routes.vypis"))  # Přesměrování na /vypis
+        return redirect("/")  # Přesměrování na /vypis
     return render_template("tanecnici.html",form=form)
 
 
@@ -91,12 +92,12 @@ class FormFormular(FlaskForm):
         if not re.match("^[A-Za-z]*$", field.data):
             raise ValidationError("Field must contain only letters without special characters")
 
-    name = StringField('Name', validators=[InputRequired(message="You can't leave this empty"), validate_characters])
-    surename = StringField('Surename', validators=[InputRequired(message="You can't leave this empty"), validate_characters])
+    name = StringField('Name', validators=[InputRequired(message="Pole nesmí být prázdné."), validate_characters])
+    surename = StringField('Surename', validators=[InputRequired(message="Pole nesmí být prázdné."), validate_characters])
 
 
-@bp.route("/vypis", methods=["GET"])
-def vypis():
+@bp.route("/", methods=["GET"])
+def index():
     # Načtení všech záznamů z databáze
     zaznamy = db.query(Tanecnici).all()
     return render_template("vypis.html", zaznamy=zaznamy)
@@ -123,7 +124,7 @@ def edit_record(id):
             record.stt = form.stt.data
 
         db.commit()  # Uložení změn do databáze
-        return redirect(url_for("routes.vypis"))  # Přesměrování na seznam záznamů
+        return redirect("/")  # Přesměrování na seznam záznamů
 
     return render_template("edit.html", form=form)
 
@@ -158,9 +159,6 @@ def load_user(user_id):
 bp.register_error_handler(404, error_views.not_found_error)
 
 bp.register_error_handler(500, error_views.internal_error)
-
-# Public views
-bp.add_url_rule("/", view_func=static_views.index)
 
 bp.add_url_rule("/register", view_func=static_views.register)
 

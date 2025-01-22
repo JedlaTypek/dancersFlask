@@ -1,10 +1,17 @@
+{% from "macros/style.html" import render_styles %}
+{% from "macros/footer.html" import render_footer %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Seznam tanečníků</title>
+    {{ render_styles() }}
 </head>
 <body>
     <h1>Seznam tanečníků</h1>
+    <a href="/add">
+        <button>Přidat tanečníka</button>
+    </a>
+    <p>Vítejte na stránce pro správu profilů tanečníků. Pro přidání tanečníka, klikněte na tlačítko <b>Přidat tanečníka</b>. Níže můžete vidět tanečníky, kteří jsou již v databázi.</p>
     <table border="1">
         <tr>
             <th>Jméno</th>
@@ -17,13 +24,13 @@
             <td>{{ zaznam.jmeno }}</td>
             <td>{{ zaznam.lat }}</td>
             <td>{{ zaznam.stt }}</td>
-            <td>
+            <td class="akce">
                 <form action="{{ url_for('routes.smazat', id=zaznam.id) }}" method="POST">
                     <button type="submit">Smazat</button>
                 </form>
                 <a href="/edit/{{zaznam.id}}">
                     <button type="submit">Upravit</button>
-                </form>
+                </a>
                 
             </td>
         </tr>
@@ -34,6 +41,6 @@
         </tr>
         {% endif %}
     </table>
-    <a href="/tanecnici">Přidat tanečníka</a>
+    {{ render_footer(now) }}
 </body>
 </html>

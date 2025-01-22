@@ -72,6 +72,6 @@
       {% endwith %}
     {% endmacro %}
     
-    {% macro render_submit(cls="btn btn-info") %}
-        <input type="submit" class="{{ cls }}">
+    {% macro render_submit(value="Odeslat", cls="btn btn-info") %}
+        <input type="submit" class="{{ cls }}" value="{{ value }}">
     {% endmacro %}

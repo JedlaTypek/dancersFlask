@@ -1,18 +1,26 @@
 {% from "macros/fields.html" import render_input_field, render_password_field, render_checkbox_field, render_submit %}
+{% from "macros/style.html" import render_styles %}
+{% from "macros/footer.html" import render_footer %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Přidání tanečníka</title>
+    {{ render_styles() }}
 </head>
 {% block content %}
-  <h3>Přidání tanečníka</h3>
+  <h1>Přidání tanečníka</h1>
+  <a href="/">
+    <button>Zpět na výpis</button>
+  </a>
+  <p>Pro přidání tanečníka vyplňte všechny informace ve formuláři a kliknutím na tlačítko <b>Přidat tanečníka</b> se vytvoří profil tanečníka.</p>
   <form method="POST" id='login-form'>
     {{ form.hidden_tag() }}
     {{ render_input_field(form.name) }}
     {{ render_input_field(form.lat) }}
     {{ render_input_field(form.stt) }}
-    {{ render_submit() }}
+    {{ render_submit(form.submit) }}
   </form>
   <br>
+  {{ render_footer(now) }}
 {% endblock %}
 </html>

@@ -1,18 +1,26 @@
 {% from "macros/fields.html" import render_input_field, render_password_field, render_checkbox_field, render_submit %}
+{% from "macros/style.html" import render_styles %}
+{% from "macros/footer.html" import render_footer %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Editace tanečníka</title>
+    {{ render_styles() }}
 </head>
 {% block content %}
-  <h3>Editace tanečníka</h3>
+  <h1>Editace tanečníka</h1>
+  <a href="/">
+    <button>Zpět na výpis</button>
+</a>
+<p>Níže můžete přepsat informace o tanečníkovi. Když nic do pole nenapíšete, zůstane současná hodnota (slabý text v poli). Pro uložení dat klikněte na tlačítko <b>Uložit změny</b>.</p>
   <form method="POST" id='login-form'>
     {{ form.hidden_tag() }}
     {{ render_input_field(form.name) }}
     {{ render_input_field(form.lat) }}
     {{ render_input_field(form.stt) }}
-    {{ render_submit() }}
+    {{ render_submit(form.submit) }}
   </form>
   <br>
+  {{ render_footer(now) }}
 {% endblock %}
 </html>

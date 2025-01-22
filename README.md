@@ -19,10 +19,10 @@ Pokud chceš udělat změnu v models.py po změně spusť tyto dva příkazy:
 
 ## Používání aplikace
 ### Zobrazení tanečníků
-Toto je možné na adrese localhost:5000/vypis.
+Toto je možné na adrese localhost:5000.
 ### Přidání tanečníka
-Je to možné na adrese localhost:5000/tanecnici nebo kliknutím na odkaz Přidat tanečníka
+Je to možné na adrese localhost:5000/add nebo kliknutím na tlačítko Přidat tanečníka
 ### Smazání tanečníka
-Je možné smazat tanečníka kliknutím na tlačítko smazat na stránce localhost:5000/vypis
+Je možné smazat tanečníka kliknutím na tlačítko smazat na stránce hlavní stránce (localhost:5000)
 ### Úprava tanečníka
 Je možné změnit údaje o tanečníkovi kliknutím na tlačítko upravit. Zobrazí se formulář stejně jako při přidávání tanečníka, akorát jsou šedě zapsána původní data. Pokud nějaké pole nevyplníte zůstane nezměněno.

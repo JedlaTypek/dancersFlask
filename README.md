@@ -1,4 +1,4 @@
-# Aplikace pro správu databáze tanečníků
+# Aplikace pro správu databáze profilů tanečníků
 ## Inicializace aplikace pomocí dockeru
  - Naklonuj repozitář: `git clone https://github.com/JedlaTypek/dancersFlask/`
  - Buildni docker container: `docker build -t flask-app .`
@@ -18,11 +18,11 @@ Pokud chceš udělat změnu v models.py po změně spusť tyto dva příkazy:
 - `alembic -c migrations/alembic.ini -x db=test upgrade head`
 
 ## Používání aplikace
-### Zobrazení tanečníků
+### Zobrazení profilů tanečníků
 Toto je možné na adrese localhost:5000.
-### Přidání tanečníka
+### Přidání profilu tanečníka
 Je to možné na adrese localhost:5000/add nebo kliknutím na tlačítko Přidat tanečníka
-### Smazání tanečníka
+### Smazání profilu tanečníka
 Je možné smazat tanečníka kliknutím na tlačítko smazat na stránce hlavní stránce (localhost:5000)
-### Úprava tanečníka
+### Úprava profilu tanečníka
 Je možné změnit údaje o tanečníkovi kliknutím na tlačítko upravit. Zobrazí se formulář stejně jako při přidávání tanečníka, akorát jsou šedě zapsána původní data. Pokud nějaké pole nevyplníte zůstane nezměněno.
